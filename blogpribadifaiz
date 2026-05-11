@@ -1,0 +1,428 @@
+<!doctype html>
+
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Vibrant Interactive Landing — Faiz</title>
+  <meta name="description" content="Halaman demo berwarna, interaktif, dan panjang — satu file HTML, CSS, dan JS.">
+  <style>
+    /* =====================
+nbetmhn       Variables & Reset
+       ===================== */
+    :root{
+      --bg-1: #0f1724;    /* deep night */
+      --g1: #ff6b6b;      /* coral */
+      --g2: #ffd166;      /* warm yellow */
+      --g3: #6bf0c4;      /* sea mint */
+      --g4: #6b8bff;      /* soft blue */
+      --glass: rgba(255,255,255,0.06);
+      --glass-2: rgba(255,255,255,0.03);
+      --accent: #ffffff;
+      --max-width: 1200px;
+      --radius: 18px;
+      --mono: 'Segoe UI Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
+      --sans: Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue';
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:var(--sans);
+      background: radial-gradient(1200px 600px at 10% 10%, rgba(107,139,255,0.06), transparent),
+                  radial-gradient(1000px 500px at 90% 80%, rgba(255,107,107,0.04), transparent),
+                  var(--bg-1);
+      color:var(--accent);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      overflow-x:hidden;
+      line-height:1.45;
+      padding-bottom:60px;
+    }
+    a{color:inherit;text-decoration:none}/* =====================
+   Utility layout
+   ===================== */
+.wrap{max-width:var(--max-width);margin:0 auto;padding:28px}
+header{position:fixed;left:0;right:0;top:18px;z-index:60}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:12px;background:linear-gradient(180deg,var(--glass),var(--glass-2));backdrop-filter: blur(8px);border-radius:14px;padding:8px 16px;width:calc(100% - 56px);box-shadow:0 6px 30px rgba(2,6,23,0.6);}
+.brand{display:flex;align-items:center;gap:12px}
+.logo{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,var(--g1),var(--g4));display:grid;place-items:center;font-weight:700;font-family:var(--mono);box-shadow:0 6px 20px rgba(0,0,0,0.6);}
+nav ul{display:flex;gap:14px;align-items:center;margin:0;padding:0;list-style:none}
+nav a{padding:8px 12px;border-radius:10px;transition:all .18s ease}
+nav a:hover{transform:translateY(-3px);background:linear-gradient(90deg,rgba(255,255,255,0.04), rgba(255,255,255,0.02));}
+
+/* =====================
+   Hero
+   ===================== */
+.hero{min-height:86vh;display:grid;grid-template-columns:1fr 420px;align-items:center;gap:32px;padding-top:36px}
+.headline{padding:40px;border-radius:22px;background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));box-shadow:inset 0 1px 0 rgba(255,255,255,0.02),0 20px 60px rgba(2,6,23,0.6)}
+h1{font-size:clamp(32px,6vw,54px);margin:0 0 12px 0;line-height:1.02}
+h1 .accent{background:linear-gradient(90deg,var(--g1),var(--g2),var(--g3),var(--g4));-webkit-background-clip:text;background-clip:text;color:transparent}
+p.lead{opacity:0.9;margin:0 0 18px 0;font-size:1.05rem}
+.cta-row{display:flex;gap:12px;align-items:center}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:12px 18px;border-radius:12px;font-weight:600;border:none;cursor:pointer}
+.btn.primary{background:linear-gradient(90deg,var(--g1),var(--g4));color:#071025;box-shadow:0 14px 30px rgba(107,139,255,0.08);}
+.btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--accent)}
+
+/* Hero right panel */
+.panel{position:relative;padding:22px;border-radius:20px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));box-shadow:0 18px 48px rgba(2,6,23,0.6);overflow:hidden}
+.device{width:100%;height:520px;border-radius:14px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.04);display:flex;flex-direction:column;}
+.device .screen{flex:1;padding:18px;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.card-mini{background:linear-gradient(135deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:12px;padding:12px;border:1px solid rgba(255,255,255,0.03);}
+
+/* =====================
+   Fancy sections
+   ===================== */
+section.features{padding:48px 0}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.feature{padding:20px;border-radius:14px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.03)}
+.feature h3{margin:0 0 8px 0}
+
+/* =====================
+   Interactive Timeline
+   ===================== */
+.timeline{display:flex;flex-direction:column;gap:18px;padding:40px;border-radius:14px;background:linear-gradient(90deg, rgba(107,139,255,0.02), rgba(107,240,196,0.015));border:1px solid rgba(255,255,255,0.02)}
+.time-row{display:flex;gap:16px;align-items:center}
+.time-dot{width:12px;height:12px;border-radius:50%;background:linear-gradient(90deg,var(--g1),var(--g4));box-shadow:0 6px 18px rgba(107,139,255,0.12)}
+
+/* =====================
+   Gallery & Cards
+   ===================== */
+.masonry{column-count:3;column-gap:16px}
+.masonry .m-card{display:inline-block;width:100%;margin:0 0 16px;border-radius:12px;overflow:hidden;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.03)}
+.m-card img{width:100%;height:auto;display:block}
+.m-card .meta{padding:12px}
+
+/* =====================
+   Footer
+   ===================== */
+footer{margin-top:54px;padding:28px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);text-align:center}
+
+/* =====================
+   Small screens
+   ===================== */
+@media (max-width:980px){
+  .hero{grid-template-columns:1fr;gap:16px;padding-top:80px}
+  .panel{order:2}
+  .masonry{column-count:2}
+  header .nav{width:calc(100% - 36px)}
+}
+@media (max-width:560px){
+  .nav{padding:8px}
+  .masonry{column-count:1}
+  .device{height:420px}
+}
+
+/* =====================
+   Decorations & Animations
+   ===================== */
+.blob{position:absolute;pointer-events:none;filter:blur(40px);opacity:.9;mix-blend-mode:screen}
+.blob.b1{width:520px;height:520px;border-radius:50%;left:-120px;top:-120px;background:radial-gradient(circle at 30% 30%, rgba(255,107,107,0.9), rgba(255,107,107,0.25), transparent)}
+.blob.b2{width:420px;height:420px;border-radius:50%;right:-100px;bottom:-100px;background:radial-gradient(circle at 70% 70%, rgba(107,139,255,0.9), rgba(107,139,255,0.18), transparent)}
+.pulse{animation:pulse 4.6s infinite ease-in-out}
+@keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.05)}100%{transform:scale(1)}}
+
+/* neon titles */
+.neon{position:relative}
+.neon::after{content:"";position:absolute;inset:0;border-radius:inherit;box-shadow:0 10px 40px rgba(107,139,255,0.06)}
+
+/* custom cursor */
+.cursor{position:fixed;left:0;top:0;width:1  6px;height:16px;border-radius:50%;background:linear-gradient(90deg,var(--g3),var(--g4));transform:translate(-50%,-50%);pointer-events:none;z-index:9999;mix-blend-mode:screen}
+
+/* glass hover */
+.hover-glass:hover{transform:translateY(-8px);box-shadow:0 30px 60px rgba(2,6,23,0.6)}
+
+/* code block aesthetic */
+pre{background:linear-gradient(180deg, rgba(0,0,0,0.3), rgba(255,255,255,0.02));padding:14px;border-radius:10px;overflow:auto;border:1px solid rgba(255,255,255,0.03)}
+
+  </style>
+</head>
+<body>
+  <div class="blob b1 pulse" aria-hidden="true"></div>
+  <div class="blob b2" aria-hidden="true"></div>
+  <div class="cursor" id="cursor"></div>  <header>
+    <div class="wrap">
+      <div class="nav">
+        <div class="brand">
+          <div class="logo">AFH</div>
+          <div>
+            <div style="font-weight:700">Treals — Faiz</div>
+            <div style="font-size:12px;opacity:.7">Stopp telling everyone • everything</div>
+          </div>
+        </div>
+        <nav>
+          <ul>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#timeline">Timeline</a></li>
+            <li><a href="#gallery">Gallery</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li><a class="btn ghost" id="themeBtn">Toggle Light</a></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </header>  <main class="wrap" style="padding-top:110px">
+    <section class="hero">
+      <div class="headline neon">
+        <h1>
+          Selamat datang di <span class="accent">Blog pribadi Faiz</span>
+        </h1>
+        <p class="lead">Satu langkah kedepan untuk menunjang masa depanmu. Pastikan dirimu siap untuk menghadapi dunia ini.<code></code></p>
+        <div class="cta-row">
+          <button class="btn primary" id="demoBtn">Lihat demo</button>
+          <a class="btn ghost" href="#gallery">Jelajahi gallery</a>
+        </div><div style="margin-top:18px;font-size:12px;opacity:.8">Tip: klik kartu di panel kanan untuk melihat interaksi.</div>
+  </div>
+
+  <aside class="panel">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+      <div style="font-weight:700">Live Preview</div>
+      <div style="font-size:13px;opacity:.85">Interactive cards</div>
+    </div>
+    <div class="device">
+      <div class="screen">
+        <div class="card-mini hover-glass" data-demo="A">
+          <div style="font-weight:700;margin-bottom:6px">Interactive Card A</div>
+          <div style="font-size:13px;opacity:.85">Klik untuk toggle warna.</div>
+        </div>
+        <div class="card-mini hover-glass" data-demo="B">
+          <div style="font-weight:700;margin-bottom:6px">Interactive Card B</div>
+          <div style="font-size:13px;opacity:.85">Hover untuk efek floating.</div>
+        </div>
+        <div class="card-mini hover-glass" data-demo="C">
+          <div style="font-weight:700;margin-bottom:6px">Card C (noise)</div>
+          <div style="font-size:13px;opacity:.85">Background animated grain.</div>
+        </div>
+        <div class="card-mini hover-glass" data-demo="D">
+          <div style="font-weight:700;margin-bottom:6px">Card D (stack)</div>
+          <div style="font-size:13px;opacity:.85">Klik untuk memunculkan stack.</div>
+        </div>
+      </div>
+      <div style="padding:12px;border-top:1px dashed rgba(255,255,255,0.04);display:flex;gap:10px;align-items:center;justify-content:space-between">
+        <div style="font-size:13px">Status: <span id="status">Siap</span></div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <button class="btn ghost" id="playSound">Play</button>
+          <button class="btn ghost" id="shuffle">Shuffle</button>
+        </div>
+      </div>
+    </div>
+  </aside>
+</section>
+
+<section id="features" class="features">
+  <h2 style="margin:0 0 18px 0">Fitur</h2>
+  <div class="grid">
+    <div class="feature hover-glass">
+      <h3>Gradien organik</h3>
+      <p style="margin:0">Palet yang dipilih untuk harmoni visual; cocok di layar gelap maupun terang.</p>
+    </div>
+    <div class="feature hover-glass">
+      <h3>Glassmorphism & Depth</h3>
+      <p style="margin:0">Layer transparan, blur, dan shadow untuk kesan kedalaman.</p>
+    </div>
+    <div class="feature hover-glass">
+      <h3>Interaksi ringan</h3>
+      <p style="margin:0">Klik, hover, dan animasi micro-interactions untuk membuat situs hidup.</p>
+    </div>
+  </div>
+</section>
+
+<section id="timeline" style="margin-top:32px">
+  <h2 style="margin:0 0 18px 0">Timeline Interaktif</h2>
+  <div class="timeline">
+    <div class="time-row" data-date="2025-01-01">
+      <div class="time-dot"></div>
+      <div>
+        <strong>Peluncuran</strong>
+        <div style="font-size:13px;opacity:.8">Mulai dengan desain yang berani.</div>
+      </div>
+    </div>
+    <div class="time-row" data-date="2025-06-14">
+      <div class="time-dot"></div>
+      <div>
+        <strong>Iterasi warna</strong>
+        <div style="font-size:13px;opacity:.8">Eksperimen gradien dan palet kontras tinggi.</div>
+      </div>
+    </div>
+    <div class="time-row" data-date="2025-10-05">
+      <div class="time-dot"></div>
+      <div>
+        <strong>Versi sekarang</strong>
+        <div style="font-size:13px;opacity:.8"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="gallery" style="margin-top:36px">
+  <h2 style="margin:0 0 18px 0">Gallery</h2>
+  <div class="masonry">
+    <!-- Reusable gallery cards with placeholders (you can replace images) -->
+    <div class="m-card">
+      <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='800' height='500'><rect width='100%' height='100%' fill='%230f1724'/><text x='50%' y='50%' fill='%23ffd166' font-size='28' font-family='Arial' dominant-baseline='middle' text-anchor='middle'>Gambar 1</text></svg>" alt="placeholder">
+      <div class="meta"><strong>Visual 1</strong><div style="font-size:13px;opacity:.8">Placeholder SVG.</div></div>
+    </div>
+    <div class="m-card">
+      <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='800' height='700'><rect width='100%' height='100%' fill='%23121827'/><text x='50%' y='50%' fill='%236bf0c4' font-size='28' font-family='Arial' dominant-baseline='middle' text-anchor='middle'>Gambar 2</text></svg>" alt="placeholder">
+      <div class="meta"><strong>Visual 2</strong><div style="font-size:13px;opacity:.8">High-contrast accent.</div></div>
+    </div>
+    <div class="m-card">
+      <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='800' height='600'><rect width='100%' height='100%' fill='%230b1220'/><text x='50%' y='50%' fill='%236b8bff' font-size='28' font-family='Arial' dominant-baseline='middle' text-anchor='middle'>Gambar 3</text></svg>" alt="placeholder">
+      <div class="meta"><strong>Visual 3</strong><div style="font-size:13px;opacity:.8">Soft blue highlight.</div></div>
+    </div>
+
+    <!-- repeat for length -->
+    <div class="m-card"><img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='800' height='420'><rect width='100%' height='100%' fill='%230b1220'/><text x='50%' y='50%' fill='%23ff6b6b' font-size='28' font-family='Arial' dominant-baseline='middle' text-anchor='middle'>Gambar 4</text></svg>" alt="placeholder"><div class="meta"><strong>Visual 4</strong><div style="font-size:13px;opacity:.8">Warm coral.</div></div></div>
+    <div class="m-card"><img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='800' height='700'><rect width='100%' height='100%' fill='%230b1220'/><text x='50%' y='50%' fill='%23ffd166' font-size='28' font-family='Arial' dominant-baseline='middle' text-anchor='middle'>Gambar 5</text></svg>" alt="placeholder"><div class="meta"><strong>Visual 5</strong><div style="font-size:13px;opacity:.8">Bright accent.</div></div></div>
+    <div class="m-card"><img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='800' height='480'><rect width='100%' height='100%' fill='%230b1220'/><text x='50%' y='50%' fill='%236bf0c4' font-size='28' font-family='Arial' dominant-baseline='middle' text-anchor='middle'>Gambar 6</text></svg>" alt="placeholder"><div class="meta"><strong>Visual 6</strong><div style="font-size:13px;opacity:.8">Mint highlight.</div></div></div>
+  </div>
+</section>
+
+<section id="contact" style="margin-top:36px">
+  <h2 style="margin:0 0 18px 0">Contact</h2>
+  <div style="display:flex;gap:18px;flex-wrap:wrap">
+    <div style="flex:1;min-width:280px;padding:18px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.03)">
+      <form id="contactForm">
+        <label style="display:block;margin-bottom:8px">Nama</label>
+        <input name="name" placeholder="Ketik Nama="width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:var(--accent)">
+        <label style="display:block;margin:14px 0 8px 0">Pesan</label>
+        <textarea name="message" placeholder="Tulis sesuatu..." required style="width:100%;height:110px;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:var(--accent)"></textarea>
+        <div style="margin-top:12px"><button class="btn primary" type="submit">Kirim</button></div>
+      </form>
+    <section>
+    <h2>Contact Information</h2>
+    <div class="contact-info">
+      <p>Email: <a href="mailto:hamdanfaizahmad@gmail.com" style="color:#007bff;">hamdanfaizahmad@gmail.com</a></p>
+      <p>WhatsApp: <a href="https://wa.me/6289618717208" style="color:#25D366;">+6289618717208</a></p>
+      <p>Lokasi: Mranggen, Kota Semarang Jawa Tengah</p>
+      <p>Instagram: 
+  <a href="https://instagram.com/a._ziaf" target="_blank" style="color:#E1306C;">
+    a._ziaf
+  </a>
+</p>
+    </div>
+  </section>
+
+<footer>
+  <div>© 2025 —  Tim kreatif style BY: Faiz </div>
+</footer>
+
+  </main>  <script>disk
+    // =====================
+    // Small interactive JS
+    // =====================
+    (function(){
+      // Custom cursor
+      const cursor = document.getElementById('cursor');
+      document.addEventListener('mousemove', e => {
+        cursor.style.left = e.clientX + 'px';
+        cursor.style.top = e.clientY + 'px';
+      });
+
+      // Demo card interactions
+      const cards = document.querySelectorAll('[data-demo]');
+      const status = document.getElementById('status');
+      cards.forEach(c => {
+        c.style.transition = 'transform .36s cubic-bezier(.2,.9,.2,1), background .3s';
+        c.addEventListener('mouseenter', ()=>{c.style.transform='translateY(-6px) rotateX(6deg)';});
+        c.addEventListener('mouseleave', ()=>{c.style.transform='translateY(0) rotateX(0)';});
+        c.addEventListener('click', ()=>{
+          const id = c.getAttribute('data-demo');
+          status.innerText = 'Clicked ' + id;
+          // small color toggle demo
+          c.style.background = c.style.background ? '' : 'linear-gradient(135deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01))';
+        });
+      });
+
+      // Theme toggle
+      const themeBtn = document.getElementById('themeBtn');
+      let light = false;
+      themeBtn.addEventListener('click', ()=>{
+        light = !light;
+        if(light){
+          document.documentElement.style.setProperty('--bg-1','#f7f9fc');
+          document.documentElement.style.setProperty('--accent','#071025');
+          themeBtn.innerText = 'Toggle Dark';
+        } else {
+          document.documentElement.style.setProperty('--bg-1','#0f1724');
+          document.documentElement.style.setProperty('--accent','#ffffff');
+          themeBtn.innerText = 'Toggle Light';
+        }
+      });
+
+      // Play simple oscillator sound (no external audio required)
+      const playBtn = document.getElementById('playSound');
+      let audioCtx = null;
+      playBtn.addEventListener('click', async ()=>{
+        if(!audioCtx){
+          audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+          const o = audioCtx.createOscillator();
+          const g = audioCtx.createGain();
+          o.type = 'sine';
+          o.frequency.value = 330;
+          g.gain.value = 0.0001;
+          o.connect(g);
+          g.connect(audioCtx.destination);
+          o.start();
+          // ramp up
+          g.gain.exponentialRampToValueAtTime(0.03,audioCtx.currentTime + 0.4);
+          setTimeout(()=>{ g.gain.exponentialRampToValueAtTime(0.00001,audioCtx.currentTime + 0.6); }, 650);
+        } else {
+          // simple click feedback
+          const o = audioCtx.createOscillator();
+          const g = audioCtx.createGain();
+          o.type = 'triangle';
+          o.frequency.value = 220 + Math.random()*300;
+          g.gain.value = 0.0001;
+          o.connect(g);g.connect(audioCtx.destination);o.start();
+          g.gain.exponentialRampToValueAtTime(0.03,audioCtx.currentTime + 0.03);
+          setTimeout(()=>{ g.gain.exponentialRampToValueAtTime(0.00001,audioCtx.currentTime + 0.25); }, 200);
+        }
+      });
+
+      // Shuffle effect for gallery (simulated)
+      document.getElementById('shuffle').addEventListener('click', ()=>{
+        const parent = document.querySelector('.masonry');
+        for(let i=parent.children.length; i>=0; i--){
+          parent.appendChild(parent.children[Math.random()*i|0]);
+        }
+      });
+
+      // Contact form simple handler
+      document.getElementById('contactForm').addEventListener('submit', e =>{
+        e.preventDefault();
+        const name = e.target.name.value.trim();
+        status.innerText = 'Message sent by ' + (name || 'Anonymous');
+        e.target.reset();
+      });
+
+      // Smooth anchor scroll
+      document.querySelectorAll('a[href^="#"]').forEach(a=>{
+        a.addEventListener('click', (ev)=>{
+          ev.preventDefault();
+          const t = document.querySelector(a.getAttribute('href'));
+          if(t) t.scrollIntoView({behavior:'smooth',block:'start'});
+        });
+      });
+
+      // Demo button scroll
+      document.getElementById('demoBtn').addEventListener('click', ()=>{
+        document.getElementById('gallery').scrollIntoView({behavior:'smooth'});
+      });
+
+      // small keyboard easter egg: press G to toggle grid shadows
+      window.addEventListener('keydown', e=>{
+        if(e.key.toLowerCase()==='g'){
+          document.querySelectorAll('.feature').forEach(f=> f.style.borderColor = 'rgba(255,255,255,0.06)');
+        }
+      });
+
+      // make page longer by cloning gallery items (just for the "panjang sekali" requirement)
+      const masonry = document.querySelector('.masonry');
+      for(let i=0;i<6;i++){
+        const clone = masonry.children[i% masonry.children.length].cloneNode(true);
+        masonry.appendChild(clone);
+      }
+    })();
+  </script></body>
+</html>
